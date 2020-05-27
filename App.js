@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import * as Font from "expo-font";
+import { AppLoading } from "expo";
 import {
   StyleSheet,
   Text,
@@ -13,17 +15,31 @@ import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 import Start from "./screens/Start";
 
-export default function App() {
-  const [playing, setPlaying] = useState(false)
+// const fetchFonts = () => {
+//   return Font.loadAsync({
+//     "open-sans": require("./")
+//   })
+// }
 
+export default function App() {
+  const [playing, setPlaying] = useState(false);
+
+  const startPlaying = () => {
+    setPlaying(true);
+    console.log("start");
+  };
+  console.log(playing);
   return (
-    <View style={styles.screen}>
-      <View style={styles.game}>
-        <Header />
-      </View>
-      <View style={styles.start}>
-        <Start />
-      </View>
+    <View>
+      {playing ? (
+        <View style={styles.game}>
+          <Header />
+        </View>
+      ) : (
+        <View style={styles.start}>
+          <Start play={startPlaying} />
+        </View>
+      )}
     </View>
   );
 }
@@ -31,11 +47,14 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {},
   start: {
-    height: "100%"
+    height: "100",
+  },
+  start: {
+    backgroundColor: "#ddd",
   },
   game: {
-    display: "none"
-  }
+    // display: "none"
+  },
 });
 
 // import React from 'react'

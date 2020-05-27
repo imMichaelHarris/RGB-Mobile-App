@@ -2,6 +2,7 @@ import React from 'react'
 import {View, Button, Text, StyleSheet, TouchableOpacity, Modal} from "react-native"
 
 const Start = (props) => {
+    console.log("here")
     return (
         <View style={styles.screen}>
             <View style={styles.info}>
@@ -11,7 +12,7 @@ const Start = (props) => {
             </View>
             <View style={styles.buttonContainer}>
                 {/* <Button style={styles.btn} title="Start" /> */}
-                <TouchableOpacity style={styles.btn} activeOpacity={.6}>
+                <TouchableOpacity style={styles.btn} activeOpacity={.6} onPress={props.play}>
                     <Text style={styles.btnText}>Start</Text>
                 </TouchableOpacity>
 
@@ -36,18 +37,23 @@ const styles = StyleSheet.create({
         fontSize: 100
     },
     buttonContainer: {
-        width: "60%"
+        width: "60%",
     },
     btn: {
-        backgroundColor: "blue",
         padding: 20,
         borderRadius: 100,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        shadowColor: "black",
+        shadowOffset: {width: 0, height: 5},
+        shadowRadius: 0,
+        shadowOpacity: .2,
+        elevation: 10,
+        backgroundColor: "white"
     },
     btnText: {
         fontSize: 25,
-        color: "#fff"
+        color: "#444"
     }
 })
 
