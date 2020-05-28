@@ -1,10 +1,12 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 const ColorSquare = (props) => {
   console.log("here");
   return (
-    <View style={{...styles.square, backgroundColor: props.color}}></View>
+    <TouchableOpacity>
+      <View style={{ ...styles.square, backgroundColor: props.color }}></View>
+    </TouchableOpacity>
   );
 };
 
