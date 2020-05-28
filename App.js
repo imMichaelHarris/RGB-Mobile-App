@@ -15,7 +15,7 @@ import {
   ScrollView,
   FlatList
 } from "react-native";
-import Header from "./components/Header";
+import GameScreen from "./screens/GameScreen";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 import Start from "./screens/Start";
@@ -47,7 +47,7 @@ export default function App() {
         />
         <Stack.Screen
           name="Game"
-          component={Header}
+          component={GameScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
