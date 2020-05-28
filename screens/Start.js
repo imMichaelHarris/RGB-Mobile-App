@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 const StartScreen = props => {
-  console.log("here", props);
+
   return (
     <View style={styles.screen}>
       <View style={styles.info}>
