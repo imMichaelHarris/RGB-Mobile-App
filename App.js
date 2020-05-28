@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { NavigationContainer } from "@react-navigation/native";
-import {createStackNavigator, createAppContainer} from "@react-navigation/stack"
+import {
+  createStackNavigator,
+  createAppContainer
+} from "@react-navigation/stack";
 import {
   StyleSheet,
   Text,
@@ -10,7 +13,7 @@ import {
   Button,
   TextInput,
   ScrollView,
-  FlatList,
+  FlatList
 } from "react-native";
 import Header from "./components/Header";
 import GoalItem from "./components/GoalItem";
@@ -22,7 +25,7 @@ import Start from "./screens/Start";
 //     "open-sans": require("./")
 //   })
 // }
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 
 export default function App() {
   const [playing, setPlaying] = useState(false);
@@ -32,30 +35,37 @@ export default function App() {
     console.log("start");
   };
 
-
   console.log(playing);
   return (
     // <Button title="Hey" />
     <NavigationContainer>
-    <Stack.Navigator>
-        <Stack.Screen name="Start" component={Start} />
-        <Stack.Screen name="Game" component={Header} />
-    </Stack.Navigator>
-</NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Start"
+          component={Start}
+          options={{ title: "Welcome to R.G.B.", headerShown: false }}
+        />
+        <Stack.Screen
+          name="Game"
+          component={Header}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {},
   start: {
-    height: "100",
+    height: "100"
   },
   start: {
-    backgroundColor: "#ddd",
+    backgroundColor: "#ddd"
   },
   game: {
     // display: "none"
-  },
+  }
 });
 
 // import React from 'react'
