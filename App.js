@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
+import { NavigationContainer } from "@react-navigation/native";
+import {createStackNavigator, createAppContainer} from "@react-navigation/stack"
 import {
   StyleSheet,
   Text,
@@ -20,6 +22,7 @@ import Start from "./screens/Start";
 //     "open-sans": require("./")
 //   })
 // }
+const Stack = createStackNavigator()
 
 export default function App() {
   const [playing, setPlaying] = useState(false);
@@ -28,19 +31,17 @@ export default function App() {
     setPlaying(true);
     console.log("start");
   };
+
+
   console.log(playing);
   return (
-    <View>
-      {playing ? (
-        <View style={styles.game}>
-          <Header />
-        </View>
-      ) : (
-        <View style={styles.start}>
-          <Start play={startPlaying} />
-        </View>
-      )}
-    </View>
+    // <Button title="Hey" />
+    <NavigationContainer>
+    <Stack.Navigator>
+        <Stack.Screen name="Start" component={Start} />
+        <Stack.Screen name="Game" component={Header} />
+    </Stack.Navigator>
+</NavigationContainer>
   );
 }
 

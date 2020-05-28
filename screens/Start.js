@@ -2,7 +2,7 @@ import React from 'react'
 import {View, Button, Text, StyleSheet, TouchableOpacity, Modal} from "react-native"
 
 const Start = (props) => {
-    console.log("here")
+    console.log("here", props)
     return (
         <View style={styles.screen}>
             <View style={styles.info}>
@@ -12,7 +12,9 @@ const Start = (props) => {
             </View>
             <View style={styles.buttonContainer}>
                 {/* <Button style={styles.btn} title="Start" /> */}
-                <TouchableOpacity style={styles.btn} activeOpacity={.6} onPress={props.play}>
+                <TouchableOpacity style={styles.btn} activeOpacity={.6} onPress={() => {
+                    props.navigation.navigate({routeName: "Game"})
+                }}>
                     <Text style={styles.btnText}>Start</Text>
                 </TouchableOpacity>
 
