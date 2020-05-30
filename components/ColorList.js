@@ -5,7 +5,6 @@ import ColorSquare from "./ColorSquare";
 
 const ColorList = (props) => {
 
-  // return <FlatList data={colors} renderItem={({item}) => <} />;
   
   return (
     <View style={styles.container}>
