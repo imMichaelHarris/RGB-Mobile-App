@@ -3,9 +3,7 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import ColorSquare from "./ColorSquare";
 
-const ColorList = (props) => {
-
-  
+const ColorList = (props) => {  
   return (
     <View style={styles.container}>
       {props.colors.map((color) => {
