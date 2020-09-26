@@ -1,12 +1,21 @@
-import React, {useState} from "react";
-import { View, StyleSheet } from "react-native";
-import ColorSquare from "../components/ColorSquare";
-import ColorList from "../components/ColorList"
-import Header from "../components/Header";
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import ColorSquare from '../components/ColorSquare';
+import ColorList from '../components/ColorList';
+import Header from '../components/Header';
 
 const GameScreen = () => {
-  const [gameWon, setGameWon] = useState(false)
-  const [guesses, setGuesses] = useState(0)
+  const [gameWon, setGameWon] = useState(false);
+  const [colors, setColors] = useState({
+    colors: [],
+    colorToGuess: 'rgb(0,0,0)',
+  });
+  const [guesses, setGuesses] = useState(0);
+
+  useEffect(() => {
+    setColors(generateRandomColors(6));
+  }, []);
+
   function generateRandomColors(num) {
     //make array
     const arr = [];
@@ -16,33 +25,39 @@ const GameScreen = () => {
       arr.push(randomColor());
     }
     // return that array
-    return arr;
+    return {
+      colors: arr,
+      colorToGuess: arr[Math.floor(Math.random() * arr.length)],
+    };
   }
   function randomColor() {
     //pick a 'red', 'green', and 'blue' from 0 to 255
     const r = Math.floor(Math.random() * 256);
     const g = Math.floor(Math.random() * 256);
     const b = Math.floor(Math.random() * 256);
-    return "rgb(" + r + ", " + g + ", " + b + ")";
+    return 'rgb(' + r + ', ' + g + ', ' + b + ')';
   }
 
   function checkWin(color) {
-    if(color === colorToGuess){
-      setGuesses(guesses + 1)
-      setGameWon(true)
+    if (color === colors.colorToGuess) {
+      console.log('won');
+      setGuesses(guesses + 1);
+      setGameWon(true);
+      return true;
     } else {
-      setGuesses(guesses + 1)
+      setGuesses(guesses + 1);
+      console.log('here');
+      setColors({...colors, colors: colors.colors.map((col) => (col === color ? ' rgb(216, 206, 206)' : col))});
+      return false;
     }
   }
 
-  const colors = generateRandomColors(6);
-
-  const colorToGuess = colors[Math.floor(Math.random() * colors.length)]
+  // const colorToGuess = colors[Math.floor(Math.random() * colors.length)]
 
   return (
     <View>
-      <Header colorToGuess={colorToGuess}/>
-      <ColorList colors={colors}/>
+      <Header colorToGuess={colors.colorToGuess} gameWon={gameWon} />
+      <ColorList colors={colors.colors} checkWin={checkWin} />
     </View>
   );
 };

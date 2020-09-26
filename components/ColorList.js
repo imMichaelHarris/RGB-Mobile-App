@@ -9,8 +9,8 @@ const ColorList = (props) => {
   
   return (
     <View style={styles.container}>
-      {props.colors.map((color) => {
-        return <ColorSquare key={color} color={color}  />;
+      {props.colors.map((color, index) => {
+        return <ColorSquare key={index} color={color}  checkWin={props.checkWin}/>;
       })}
     </View>
   );

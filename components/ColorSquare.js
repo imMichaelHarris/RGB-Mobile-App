@@ -2,9 +2,9 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 const ColorSquare = (props) => {
-  console.log("here");
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => props.checkWin(props.color)}>
       <View style={{ ...styles.square, backgroundColor: props.color }}></View>
     </TouchableOpacity>
   );

@@ -34,7 +34,7 @@ export default function App() {
     setPlaying(true);
     console.log("start");
   };
-
+  
   console.log(playing);
   return (
     // <Button title="Hey" />
