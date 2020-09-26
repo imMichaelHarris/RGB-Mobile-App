@@ -3,10 +3,7 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import ColorSquare from "./ColorSquare";
 
-const ColorList = (props) => {
-
-  // return <FlatList data={colors} renderItem={({item}) => <} />;
-  
+const ColorList = (props) => {  
   return (
     <View style={styles.container}>
       {props.colors.map((color, index) => {
