@@ -25,7 +25,7 @@ colorRGB()
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: 200,
+    height: 120,
     paddingTop: 36,
     backgroundColor: "rgb(34, 34, 34)",
     alignItems: "center",

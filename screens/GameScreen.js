@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
+import { GameContext } from '../context';
 import { View, StyleSheet } from 'react-native';
-import ColorSquare from '../components/ColorSquare';
 import ColorList from '../components/ColorList';
 import Header from '../components/Header';
+import GameOptions from '../components/GameOptions';
+
+// export const GameContext = createContext();
 
 const GameScreen = () => {
   const [gameWon, setGameWon] = useState(false);
@@ -40,15 +43,22 @@ const GameScreen = () => {
 
   function checkWin(color) {
     if (color === colors.colorToGuess) {
-      console.log('won');
       setGuesses(guesses + 1);
+      console.log('true');
+      setColors({
+        ...colors,
+        colors: colors.colors.map(() => color),
+      });
       setGameWon(true);
-      return true;
     } else {
       setGuesses(guesses + 1);
-      console.log('here');
-      setColors({...colors, colors: colors.colors.map((col) => (col === color ? ' rgb(216, 206, 206)' : col))});
-      return false;
+
+      setColors({
+        ...colors,
+        colors: colors.colors.map((col) =>
+          col === color ? ' rgb(255, 255, 255)' : col
+        ),
+      });
     }
   }
 
@@ -56,8 +66,11 @@ const GameScreen = () => {
 
   return (
     <View>
-      <Header colorToGuess={colors.colorToGuess} gameWon={gameWon} />
-      <ColorList colors={colors.colors} checkWin={checkWin} />
+      <GameContext.Provider value={gameWon}>
+        <Header colorToGuess={colors.colorToGuess} gameWon={gameWon} />
+        <GameOptions />
+        <ColorList colors={colors.colors} checkWin={checkWin} />
+      </GameContext.Provider>
     </View>
   );
 };

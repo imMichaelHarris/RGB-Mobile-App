@@ -1,10 +1,20 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useContext } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { GameContext } from '../context';
 
 const ColorSquare = (props) => {
+  const gameWon = useContext(GameContext);
+
+  if (gameWon) {
+    return (
+      <View style={{ ...styles.square, backgroundColor: props.color }}></View>
+    );
+  }
 
   return (
-    <TouchableOpacity onPress={() => props.checkWin(props.color)}>
+    <TouchableOpacity
+      onPress={!gameWon ? () => props.checkWin(props.color) : null}
+    >
       <View style={{ ...styles.square, backgroundColor: props.color }}></View>
     </TouchableOpacity>
   );

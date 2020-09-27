@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    backgroundColor: " rgb(216, 206, 206)",
+    backgroundColor: "#fff",
     height: "100%"
   }
 });
