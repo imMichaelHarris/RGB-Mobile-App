@@ -1,19 +1,44 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { GameContext } from '../context';
 
 const GameOptions = () => {
-  console.log('In game options');
+  const { newColors, gameState, setGameState } = useContext(GameContext);
+  const { difficulty, lives, gameWon, gameOver } = gameState;
   return (
     <View style={styles.bar}>
-      <Text style={styles.text}>New Colors</Text>
+      <TouchableOpacity
+        style={styles.change}
+        onPress={() => (gameOver ? newColors(true) : newColors())}
+      >
+        <Text>{gameWon ? 'Play Again' : 'New Colors'}</Text>
+      </TouchableOpacity>
+      <View style={styles.lives}>
+        {!gameWon &&
+          lives.map((_, i) => (
+            <Text style={styles.heart} key={i}>
+              &#10084;
+            </Text>
+          ))}
+        {gameWon && <Text>Correct!</Text>}
+      </View>
       <View style={styles.difficulty}>
-          <TouchableOpacity style={styles.button}>
-              <Text>Easy</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-              <Text>Hard</Text>
-          </TouchableOpacity>
-
+        <TouchableOpacity
+          style={difficulty === 'Easy' ? styles.selected : styles.button}
+          onPress={() => setGameState({ ...gameState, difficulty: 'Easy' })}
+        >
+          <Text style={difficulty === 'Easy' ? { color: '#fff' } : null}>
+            Easy
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={difficulty === 'Hard' ? styles.selected : styles.button}
+          onPress={() => setGameState({ ...gameState, difficulty: 'Hard' })}
+        >
+          <Text style={difficulty === 'Hard' ? { color: '#fff' } : null}>
+            Hard
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -34,11 +59,27 @@ const styles = StyleSheet.create({
     width: '30%',
     justifyContent: 'space-around',
   },
-  button : {
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-  }
-
+  button: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  selected: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    backgroundColor: 'rgb(34, 34, 34)',
+    color: '#fff',
+  },
+  lives: {
+    width: '20%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  change: {
+    width: '30%',
+  },
+  heart: {
+    paddingHorizontal: 2,
+  },
 });
 
 export default GameOptions;

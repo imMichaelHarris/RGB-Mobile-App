@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { GameContext } from '../context';
 
 const ColorSquare = (props) => {
-  const gameWon = useContext(GameContext);
+  const { gameWon } = useContext(GameContext);
 
   if (gameWon) {
     return (

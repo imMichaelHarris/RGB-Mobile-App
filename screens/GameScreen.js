@@ -1,23 +1,60 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { GameContext } from '../context';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import ColorList from '../components/ColorList';
 import Header from '../components/Header';
 import GameOptions from '../components/GameOptions';
 
-// export const GameContext = createContext();
-
 const GameScreen = () => {
-  const [gameWon, setGameWon] = useState(false);
+  const [gameState, setGameState] = useState({
+    gameWon: false,
+    gameOver: false,
+    difficulty: 'Easy',
+    lives: [0, 0, 0],
+    score: 0,
+  });
   const [colors, setColors] = useState({
     colors: [],
     colorToGuess: 'rgb(0,0,0)',
   });
-  const [guesses, setGuesses] = useState(0);
 
   useEffect(() => {
-    setColors(generateRandomColors(6));
-  }, []);
+    newColors();
+  }, [gameState.difficulty]);
+
+  function reset() {
+    setGameState({
+      gameWon: false,
+      gameOver: false,
+      score: 0,
+    });
+  }
+  function newColors(reset = false) {
+    const { difficulty, gameWon } = gameState;
+    if (difficulty === 'Easy') {
+      setGameState({
+        ...gameState,
+        lives: [0, 0, 0],
+        gameOver: false,
+        score: reset ? 0 : gameState.score
+      });
+      setColors(generateRandomColors(4));
+    } else {
+      setGameState({
+        ...gameState,
+        lives: [0, 0],
+        gameOver: false,
+        score: reset ? 0 : gameState.score
+
+      });
+      setColors(generateRandomColors(6));
+    }
+    if (gameWon) {
+      difficulty === 'Easy'
+        ? setGameState({ ...gameState, gameWon: false, lives: [0, 0, 0] })
+        : setGameState({ ...gameState, gameWon: false, lives: [0, 0] });
+    }
+  }
 
   function generateRandomColors(num) {
     //make array
@@ -42,39 +79,76 @@ const GameScreen = () => {
   }
 
   function checkWin(color) {
+    if (gameState.gameWon || color == null) {
+      return;
+    }
+
     if (color === colors.colorToGuess) {
-      setGuesses(guesses + 1);
-      console.log('true');
       setColors({
         ...colors,
         colors: colors.colors.map(() => color),
       });
-      setGameWon(true);
-    } else {
-      setGuesses(guesses + 1);
 
+      setGameState({
+        ...gameState,
+        gameWon: true,
+        score: gameState.score + gameState.lives.length,
+      });
+    } else if (gameState.lives.length - 1 === 0) {
+      setGameState({
+        ...gameState,
+        lives: gameState.lives.slice(0, gameState.lives.length - 1),
+        gameOver: true,
+      });
       setColors({
         ...colors,
-        colors: colors.colors.map((col) =>
-          col === color ? ' rgb(255, 255, 255)' : col
-        ),
+        colors: colors.colors.map((col) => (col === color ? null : col)),
+      });
+      return;
+    } else {
+      setGameState({
+        ...gameState,
+        lives: gameState.lives.slice(0, gameState.lives.length - 1),
+      });
+      setColors({
+        ...colors,
+        colors: colors.colors.map((col) => (col === color ? null : col)),
       });
     }
   }
 
-  // const colorToGuess = colors[Math.floor(Math.random() * colors.length)]
-
   return (
     <View>
-      <GameContext.Provider value={gameWon}>
-        <Header colorToGuess={colors.colorToGuess} gameWon={gameWon} />
+      <GameContext.Provider
+        value={{
+          gameState: gameState,
+          setGameState: setGameState,
+          newColors: newColors,
+        }}
+      >
+        <Header
+          colorToGuess={colors.colorToGuess}
+          gameWon={gameState.gameWon}
+        />
         <GameOptions />
+        <Text style={styles.score}>Score: {gameState.score}</Text>
+        {gameState.gameOver && (
+          <Text style={styles.score}>
+            Game Over! Your score is {gameState.score}
+          </Text>
+        )}
         <ColorList colors={colors.colors} checkWin={checkWin} />
       </GameContext.Provider>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  score: {
+    textAlign: 'center',
+    fontSize: 20,
+    backgroundColor: '#fff',
+  },
+});
 
 export default GameScreen;
